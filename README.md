@@ -1,1 +1,1 @@
-# cloud-ml-management
+# cloud-ml-manager
