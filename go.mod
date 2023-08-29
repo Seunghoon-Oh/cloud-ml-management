@@ -1,4 +1,4 @@
-module github.com/Seunghoon-Oh/cloud-ml-management
+module github.com/Seunghoon-Oh/cloud-ml-manager
 
 go 1.21.0
 
