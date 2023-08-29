@@ -6,8 +6,8 @@ import (
 	"net/http"
 )
 
-func GetNotebooks() string {
-	resp, err := http.Get("http://cloud-ml-notebook-manager.cloud-ml-notebook:8082/")
+func GetStudios() string {
+	resp, err := http.Get("http://cloud-ml-studio-manager.cloud-ml-studio:8082/")
 	if err != nil {
 		panic(err)
 	}

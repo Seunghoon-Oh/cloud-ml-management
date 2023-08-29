@@ -6,8 +6,8 @@ import (
 	"net/http"
 )
 
-func GetNotebooks() string {
-	resp, err := http.Get("http://cloud-ml-notebook-manager.cloud-ml-notebook:8082/")
+func GetPipelines() string {
+	resp, err := http.Get("http://cloud-ml-pipeline-manager.cloud-ml-pipeline:8082/")
 	if err != nil {
 		panic(err)
 	}

@@ -25,9 +25,18 @@ import (
 // 	fmt.Printf("%s\n", string(data))
 // }
 
-func GetNotebooks(c *gin.Context) {
-	data := service.GetNotebooks()
-	println(data)
+func GetAllMLServervices(c *gin.Context) {
+
+	nobooks := service.GetNotebooks()
+	println(nobooks)
+	studios := service.GetStudios()
+	println(studios)
+	pipelines := service.GetPipelines()
+	println(pipelines)
+
+	data := make([]string, 3)
+	data = append(data, nobooks, studios, pipelines)
+
 	c.JSON(http.StatusOK, gin.H{
 		"data": data,
 	})

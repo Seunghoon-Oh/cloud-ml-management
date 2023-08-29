@@ -3,7 +3,7 @@ ENV GO111MODULE=on \
     CGO_ENABLED=0 \
     GOOS=linux
 WORKDIR /build
-COPY go.mod go.sum main.go ./
+COPY ./ ./
 RUN go mod download
 RUN go build -o main .
 WORKDIR /dist
