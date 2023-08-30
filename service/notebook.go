@@ -1,13 +1,12 @@
 package service
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 )
 
 func GetNotebooks() string {
-	resp, err := http.Get("http://cloud-ml-notebook-manager.cloud-ml-notebook:8082/")
+	resp, err := http.Get("http://cloud-ml-notebook-manager.cloud-ml-notebook:8082/notebooks")
 	if err != nil {
 		panic(err)
 	}
@@ -19,6 +18,5 @@ func GetNotebooks() string {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%s\n", string(data))
 	return string(data)
 }

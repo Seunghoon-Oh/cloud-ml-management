@@ -28,15 +28,12 @@ import (
 func GetAllMLServervices(c *gin.Context) {
 
 	nobooks := service.GetNotebooks()
-	println(nobooks)
 	studios := service.GetStudios()
-	println(studios)
 	pipelines := service.GetPipelines()
-	println(pipelines)
 
-	data := make([]string, 3)
+	var data []string
 	data = append(data, nobooks, studios, pipelines)
-
+	print(data)
 	c.JSON(http.StatusOK, gin.H{
 		"data": data,
 	})

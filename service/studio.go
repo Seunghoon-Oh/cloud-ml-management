@@ -1,13 +1,12 @@
 package service
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 )
 
 func GetStudios() string {
-	resp, err := http.Get("http://cloud-ml-studio-manager.cloud-ml-studio:8082/")
+	resp, err := http.Get("http://cloud-ml-studio-manager.cloud-ml-studio:8082/studios")
 	if err != nil {
 		panic(err)
 	}
@@ -19,6 +18,5 @@ func GetStudios() string {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%s\n", string(data))
 	return string(data)
 }
