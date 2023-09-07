@@ -9,16 +9,16 @@ import (
 )
 
 var notebookCb *circuit.Breaker
-var notebookClienct *circuit.HTTPClient
+var notebookClient *circuit.HTTPClient
 
 func SetupNotebookCircuitBreaker() {
-	notebookClienct, notebookCb = network.GetHttpClient()
+	notebookClient, notebookCb = network.GetHttpClient()
 }
 
 func GetNotebooks() string {
 	var result string
 	if notebookCb.Ready() {
-		resp, err := notebookClienct.Get("http://cloud-ml-notebook-manager.cloud-ml-notebook:8082/notebooks")
+		resp, err := notebookClient.Get("http://cloud-ml-notebook-manager.cloud-ml-notebook:8082/notebooks")
 		if err != nil {
 			fmt.Println(err)
 			notebookCb.Fail()
