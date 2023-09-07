@@ -2,6 +2,7 @@ package main
 
 import (
 	v1 "github.com/Seunghoon-Oh/cloud-ml-manager/controller/v1"
+	"github.com/Seunghoon-Oh/cloud-ml-manager/service"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,7 +18,14 @@ func setupRouter() *gin.Engine {
 	return r
 }
 
+func setupCircuitBreaker() {
+	service.SetupNotebookCircuitBreaker()
+	service.SetupPipelineCircuitBreaker()
+	service.SetupStudioCircuitBreaker()
+}
+
 func main() {
+	setupCircuitBreaker()
 	r := setupRouter()
 	r.Run(":8082")
 }

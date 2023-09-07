@@ -5,22 +5,26 @@ import (
 	"io"
 
 	"github.com/Seunghoon-Oh/cloud-ml-manager/network"
+	circuit "github.com/rubyist/circuitbreaker"
 )
+
+var notebookCb *circuit.Breaker
+var notebookClienct *circuit.HTTPClient
+
+func SetupNotebookCircuitBreaker() {
+	notebookClienct, notebookCb = network.GetHttpClient()
+}
 
 func GetNotebooks() string {
 	var result string
-	client, cb := network.GetHttpClient()
-	if cb.Ready() {
-		resp, err := client.Get("http://cloud-ml-notebook-manager.cloud-ml-notebook:8082/notebooks")
-		fmt.Print("resp: ")
-		fmt.Println(resp)
+	if notebookCb.Ready() {
+		resp, err := notebookClienct.Get("http://cloud-ml-notebook-manager.cloud-ml-notebook:8082/notebooks")
 		if err != nil {
-			fmt.Print("err: ")
 			fmt.Println(err)
-			cb.Fail()
+			notebookCb.Fail()
 			return result
 		}
-		cb.Success()
+		notebookCb.Success()
 		defer resp.Body.Close()
 		data, err := io.ReadAll(resp.Body)
 		if err != nil {

@@ -5,39 +5,27 @@ import (
 	"io"
 
 	"github.com/Seunghoon-Oh/cloud-ml-manager/network"
+	circuit "github.com/rubyist/circuitbreaker"
 )
 
-// func GetPipelines() string {
-// 	client := network.GetHttpClient()
-// 	resp, err := client.Get("http://cloud-ml-pipeline-manager.cloud-ml-pipeline:8082/pipelines")
-// 	if err != nil {
-// 		panic(err)
-// 	}
+var pipelineCb *circuit.Breaker
+var pipelineClienct *circuit.HTTPClient
 
-// 	defer resp.Body.Close()
-
-// 	// 결과 출력
-// 	data, err := io.ReadAll(resp.Body)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	return string(data)
-// }
+func SetupPipelineCircuitBreaker() {
+	pipelineClienct, pipelineCb = network.GetHttpClient()
+}
 
 func GetPipelines() string {
 	var result string
-	client, cb := network.GetHttpClient()
-	if cb.Ready() {
-		resp, err := client.Get("http://cloud-ml-pipeline-manager.cloud-ml-pipeline:8082/pipelines")
-		fmt.Print("resp: ")
-		fmt.Println(resp)
+
+	if pipelineCb.Ready() {
+		resp, err := pipelineClienct.Get("http://cloud-ml-pipeline-manager.cloud-ml-pipeline:8082/pipelines")
 		if err != nil {
-			fmt.Print("err: ")
 			fmt.Println(err)
-			cb.Fail()
+			pipelineCb.Fail()
 			return result
 		}
-		cb.Success()
+		pipelineCb.Success()
 		defer resp.Body.Close()
 		data, err := io.ReadAll(resp.Body)
 		if err != nil {

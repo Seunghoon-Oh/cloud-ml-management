@@ -5,39 +5,26 @@ import (
 	"io"
 
 	"github.com/Seunghoon-Oh/cloud-ml-manager/network"
+	circuit "github.com/rubyist/circuitbreaker"
 )
 
-// func GetStudios() string {
-// 	client := network.GetHttpClient()
-// 	resp, err := client.Get("http://cloud-ml-studio-manager.cloud-ml-studio:8082/studios")
-// 	if err != nil {
-// 		panic(err)
-// 	}
+var studioCb *circuit.Breaker
+var studioClienct *circuit.HTTPClient
 
-// 	defer resp.Body.Close()
-
-// 	// 결과 출력
-// 	data, err := io.ReadAll(resp.Body)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	return string(data)
-// }
+func SetupStudioCircuitBreaker() {
+	studioClienct, studioCb = network.GetHttpClient()
+}
 
 func GetStudios() string {
 	var result string
-	client, cb := network.GetHttpClient()
-	if cb.Ready() {
-		resp, err := client.Get("http://cloud-ml-studio-manager.cloud-ml-studio:8082/studios")
-		fmt.Print("resp: ")
-		fmt.Println(resp)
+	if studioCb.Ready() {
+		resp, err := studioClienct.Get("http://cloud-ml-studio-manager.cloud-ml-studio:8082/studios")
 		if err != nil {
-			fmt.Print("err: ")
 			fmt.Println(err)
-			cb.Fail()
+			studioCb.Fail()
 			return result
 		}
-		cb.Success()
+		studioCb.Success()
 		defer resp.Body.Close()
 		data, err := io.ReadAll(resp.Body)
 		if err != nil {
