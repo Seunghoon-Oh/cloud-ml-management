@@ -1,8 +1,8 @@
 package service
 
 import (
+	"encoding/json"
 	"fmt"
-	"io"
 
 	"github.com/Seunghoon-Oh/cloud-ml-manager/network"
 	circuit "github.com/rubyist/circuitbreaker"
@@ -15,23 +15,19 @@ func SetupStudioCircuitBreaker() {
 	studioClienct, studioCb = network.GetHttpClient()
 }
 
-func GetStudios() string {
-	var result string
+func GetStudios() []string {
 	if studioCb.Ready() {
 		resp, err := studioClienct.Get("http://cloud-ml-studio-manager.cloud-ml-studio:8082/studios")
 		if err != nil {
 			fmt.Println(err)
 			studioCb.Fail()
-			return result
+			return nil
 		}
 		studioCb.Success()
 		defer resp.Body.Close()
-		data, err := io.ReadAll(resp.Body)
-		if err != nil {
-			panic(err)
-		}
-		result = string(data)
-		return result
+		rsData := network.ResponseData{}
+		json.NewDecoder(resp.Body).Decode(&rsData)
+		return rsData.Data
 	}
-	return result
+	return nil
 }

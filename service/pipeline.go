@@ -1,8 +1,8 @@
 package service
 
 import (
+	"encoding/json"
 	"fmt"
-	"io"
 
 	"github.com/Seunghoon-Oh/cloud-ml-manager/network"
 	circuit "github.com/rubyist/circuitbreaker"
@@ -15,24 +15,19 @@ func SetupPipelineCircuitBreaker() {
 	pipelineClienct, pipelineCb = network.GetHttpClient()
 }
 
-func GetPipelines() string {
-	var result string
-
+func GetPipelines() []string {
 	if pipelineCb.Ready() {
 		resp, err := pipelineClienct.Get("http://cloud-ml-pipeline-manager.cloud-ml-pipeline:8082/pipelines")
 		if err != nil {
 			fmt.Println(err)
 			pipelineCb.Fail()
-			return result
+			return nil
 		}
 		pipelineCb.Success()
 		defer resp.Body.Close()
-		data, err := io.ReadAll(resp.Body)
-		if err != nil {
-			panic(err)
-		}
-		result = string(data)
-		return result
+		rsData := network.ResponseData{}
+		json.NewDecoder(resp.Body).Decode(&rsData)
+		return rsData.Data
 	}
-	return result
+	return nil
 }

@@ -15,25 +15,19 @@ func SetupNotebookCircuitBreaker() {
 	notebookClient, notebookCb = network.GetHttpClient()
 }
 
-func GetNotebooks(target interface{}) {
-	// var result string
-
+func GetNotebooks() []string {
 	if notebookCb.Ready() {
 		resp, err := notebookClient.Get("http://cloud-ml-notebook-manager.cloud-ml-notebook:8082/notebooks")
 		if err != nil {
 			fmt.Println(err)
 			notebookCb.Fail()
-			return
+			return nil
 		}
 		notebookCb.Success()
 		defer resp.Body.Close()
-		// data, err := io.ReadAll(resp.Body)
-		if err != nil {
-			panic(err)
-		}
-
-		json.NewDecoder(resp.Body).Decode(target)
-		// result = string(data)
+		rsData := network.ResponseData{}
+		json.NewDecoder(resp.Body).Decode(&rsData)
+		return rsData.Data
 	}
-
+	return nil
 }
