@@ -7,14 +7,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type ResponseData struct {
+	Data string
+}
+
 func GetAllMLServervices(c *gin.Context) {
 
-	nobooks := service.GetNotebooks()
+	notebooks := ResponseData{}
+	service.GetNotebooks(notebooks)
+
 	studios := service.GetStudios()
 	pipelines := service.GetPipelines()
 
 	var data []string
-	data = append(data, nobooks, studios, pipelines)
+	data = append(data, notebooks.Data, studios, pipelines)
 	c.JSON(http.StatusOK, gin.H{
 		"data": data,
 	})

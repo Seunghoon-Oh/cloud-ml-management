@@ -7,7 +7,7 @@ import (
 )
 
 func GetHttpClient() (*circuit.HTTPClient, *circuit.Breaker) {
-	circuitBreaker := circuit.NewThresholdBreaker(5)
-	client := circuit.NewHTTPClientWithBreaker(circuitBreaker, time.Millisecond*300, nil)
+	circuitBreaker := circuit.NewThresholdBreaker(3)
+	client := circuit.NewHTTPClientWithBreaker(circuitBreaker, time.Second*1, nil)
 	return client, circuitBreaker
 }

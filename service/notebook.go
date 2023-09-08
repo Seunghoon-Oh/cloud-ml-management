@@ -1,8 +1,8 @@
 package service
 
 import (
+	"encoding/json"
 	"fmt"
-	"io"
 
 	"github.com/Seunghoon-Oh/cloud-ml-manager/network"
 	circuit "github.com/rubyist/circuitbreaker"
@@ -15,23 +15,25 @@ func SetupNotebookCircuitBreaker() {
 	notebookClient, notebookCb = network.GetHttpClient()
 }
 
-func GetNotebooks() string {
-	var result string
+func GetNotebooks(target interface{}) {
+	// var result string
+
 	if notebookCb.Ready() {
 		resp, err := notebookClient.Get("http://cloud-ml-notebook-manager.cloud-ml-notebook:8082/notebooks")
 		if err != nil {
 			fmt.Println(err)
 			notebookCb.Fail()
-			return result
+			return
 		}
 		notebookCb.Success()
 		defer resp.Body.Close()
-		data, err := io.ReadAll(resp.Body)
+		// data, err := io.ReadAll(resp.Body)
 		if err != nil {
 			panic(err)
 		}
-		result = string(data)
-		return result
+
+		json.NewDecoder(resp.Body).Decode(target)
+		// result = string(data)
 	}
-	return result
+
 }
