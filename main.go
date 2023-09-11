@@ -14,6 +14,7 @@ func setupRouter() *gin.Engine {
 	})
 
 	r.GET("/ml/services", v1.GetAllMLServervices)
+
 	r.POST("/ml/notebook", v1.CreateMLNotebook)
 	r.POST("/ml/studio", v1.CreateMLStudio)
 	r.POST("/ml/pipeline", v1.CreateMLPipeline)
