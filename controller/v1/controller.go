@@ -26,3 +26,13 @@ func CreateMLNotebook(c *gin.Context) {
 	service.PublishMsg("notebook", "create")
 	c.String(200, "ok")
 }
+
+func CreateMLStudio(c *gin.Context) {
+	service.PublishMsg("studio", "create")
+	c.String(200, "ok")
+}
+
+func CreateMLPipeline(c *gin.Context) {
+	service.PublishMsg("pipeline", "create")
+	c.String(200, "ok")
+}

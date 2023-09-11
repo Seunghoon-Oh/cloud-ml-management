@@ -6,7 +6,7 @@ import (
 	"github.com/nats-io/nats.go"
 )
 
-func PublishMsg(subject, msg string) string {
+func PublishMsg(subject, action string) string {
 	nc, err := nats.Connect("nats://nats:4222")
 	if err != nil {
 		log.Fatal(err)
@@ -15,7 +15,7 @@ func PublishMsg(subject, msg string) string {
 
 	defer nc.Close()
 
-	if err := nc.Publish("notebook", []byte("create")); err != nil {
+	if err := nc.Publish(subject, []byte(action)); err != nil {
 		log.Fatal(err)
 		return "Fail"
 	}
