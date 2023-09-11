@@ -6,23 +6,20 @@ import (
 	"github.com/nats-io/nats.go"
 )
 
-func PublishMsg(subject, msg string) {
-	// fmt.Println("subject: ", subject, "msg: ", msg)
-	// nc, _ := nats.Connect("nats://nats:4222")
-	// defer nc.Drain()
-	// nc.Publish("notebook", []byte("create"))
-
-	// nc, err := nats.Connect(nats.DefaultURL)
+func PublishMsg(subject, msg string) string {
 	nc, err := nats.Connect("nats://nats:4222")
 	if err != nil {
 		log.Fatal(err)
+		return "Fail"
 	}
+
 	defer nc.Close()
 
 	if err := nc.Publish("notebook", []byte("create")); err != nil {
 		log.Fatal(err)
+		return "Fail"
 	}
-
+	return "Ok"
 }
 
 // func main() {

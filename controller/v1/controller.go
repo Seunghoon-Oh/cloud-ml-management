@@ -24,4 +24,5 @@ func GetAllMLServervices(c *gin.Context) {
 
 func CreateMLNotebook(c *gin.Context) {
 	service.PublishMsg("notebook", "create")
+	c.String(200, "ok")
 }
