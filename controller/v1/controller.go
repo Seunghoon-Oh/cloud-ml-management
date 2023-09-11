@@ -23,16 +23,16 @@ func GetAllMLServervices(c *gin.Context) {
 }
 
 func CreateMLNotebook(c *gin.Context) {
-	service.PublishMsg("notebook", "create")
-	c.String(200, "ok")
+	result := service.PublishMsg("notebook", "create")
+	c.String(200, result)
 }
 
 func CreateMLStudio(c *gin.Context) {
-	service.PublishMsg("studio", "create")
-	c.String(200, "ok")
+	result := service.PublishMsg("studio", "create")
+	c.String(200, result)
 }
 
 func CreateMLPipeline(c *gin.Context) {
-	service.PublishMsg("pipeline", "create")
-	c.String(200, "ok")
+	result := service.PublishMsg("pipeline", "create")
+	c.String(200, result)
 }
