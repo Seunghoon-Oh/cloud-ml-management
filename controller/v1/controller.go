@@ -21,3 +21,7 @@ func GetAllMLServervices(c *gin.Context) {
 		"data": data,
 	})
 }
+
+func CreateMLNotebook(c *gin.Context) {
+	service.PublishMsg("notebook", "create")
+}
