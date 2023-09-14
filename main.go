@@ -18,7 +18,7 @@ func setupRouter() *gin.Engine {
 	r.POST("/ml/notebook", v1.CreateMLNotebook)
 	r.POST("/ml/studio", v1.CreateMLStudio)
 	r.POST("/ml/pipeline", v1.CreateMLPipeline)
-	r.POST("/ml/foo", v1.CreateMLPipeline)
+	r.POST("/ml/foo", v1.CreateMLFoo)
 
 	return r
 }
