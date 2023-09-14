@@ -13,10 +13,17 @@ func GetAllMLServervices(c *gin.Context) {
 	studios := service.GetStudios()
 	pipelines := service.GetPipelines()
 
+	// 신규 상품 추가를 위한 코드
+	foos := service.GetFoos()
+
 	var data []string
 	data = append(data, notebooks...)
 	data = append(data, studios...)
 	data = append(data, pipelines...)
+
+	// 신규 상품 추가를 위한 코드
+	data = append(data, foos...)
+
 	c.JSON(http.StatusOK, gin.H{
 		"data": data,
 	})
@@ -34,5 +41,11 @@ func CreateMLStudio(c *gin.Context) {
 
 func CreateMLPipeline(c *gin.Context) {
 	result := service.PublishMsg("pipeline", "create")
+	c.String(200, result)
+}
+
+// 신규 상품 추가를 위한 코드
+func CreateMLFoo(c *gin.Context) {
+	result := service.PublishMsg("foo", "create")
 	c.String(200, result)
 }

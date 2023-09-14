@@ -18,13 +18,17 @@ func setupRouter() *gin.Engine {
 	r.POST("/ml/notebook", v1.CreateMLNotebook)
 	r.POST("/ml/studio", v1.CreateMLStudio)
 	r.POST("/ml/pipeline", v1.CreateMLPipeline)
+	r.POST("/ml/pipeline", v1.CreateMLPipeline)
 
 	return r
 }
 
 func setupCircuitBreaker() {
 	service.SetupNotebookCircuitBreaker()
+	service.SetupStudioCircuitBreaker()
 	service.SetupPipelineCircuitBreaker()
+
+	// 신규 상품 추가를 위한 코드
 	service.SetupStudioCircuitBreaker()
 }
 
