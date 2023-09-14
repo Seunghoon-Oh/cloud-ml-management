@@ -29,7 +29,7 @@ func setupCircuitBreaker() {
 	service.SetupPipelineCircuitBreaker()
 
 	// 신규 상품 추가를 위한 코드
-	service.SetupStudioCircuitBreaker()
+	service.SetupFooCircuitBreaker()
 }
 
 func main() {
