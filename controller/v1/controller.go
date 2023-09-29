@@ -46,6 +46,11 @@ func CreateMLPipeline(c *gin.Context) {
 	c.String(200, result)
 }
 
+func CreateMLExperiments(c *gin.Context) {
+	result := service.PublishMsg("exp", "create")
+	c.String(200, result)
+}
+
 // 신규 상품 추가를 위한 코드
 func CreateMLFoo(c *gin.Context) {
 	result := service.PublishMsg("foo", "create")
