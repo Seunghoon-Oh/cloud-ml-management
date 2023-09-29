@@ -12,6 +12,7 @@ func GetAllMLServervices(c *gin.Context) {
 	notebooks := service.GetNotebooks()
 	studios := service.GetStudios()
 	pipelines := service.GetPipelines()
+	experiments := service.GetExps()
 
 	// 신규 상품 추가를 위한 코드
 	foos := service.GetFoos()
@@ -20,6 +21,7 @@ func GetAllMLServervices(c *gin.Context) {
 	data = append(data, notebooks...)
 	data = append(data, studios...)
 	data = append(data, pipelines...)
+	data = append(data, experiments...)
 
 	// 신규 상품 추가를 위한 코드
 	data = append(data, foos...)
